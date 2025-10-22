@@ -66,6 +66,14 @@
     
     <!-- 主聊天区域 -->
     <div class="chat-main">
+      <!-- 顶部标题栏 -->
+      <div class="chat-header">
+        <div class="header-content">
+          <h1 class="chat-title">阿孝AI</h1>
+          <p class="chat-subtitle">智能对话助手，让工作更高效</p>
+        </div>
+      </div>
+      
       <div class="chat-container">
         <!-- 空状态 -->
         <div v-if="currentMessages.length === 0" class="empty-state">
@@ -450,13 +458,57 @@ export default {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: #fff;
+  background: linear-gradient(180deg, #f8f9fe 0%, #ffffff 100%);
+  position: relative;
+}
+
+.chat-main::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 300px;
+  background: radial-gradient(ellipse at top, rgba(64, 158, 255, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* 顶部标题栏 */
+.chat-header {
+  padding: 24px 32px 16px;
+  background: transparent;
+  position: relative;
+  z-index: 1;
+}
+
+.header-content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.chat-title {
+  font-size: 32px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.chat-subtitle {
+  font-size: 14px;
+  color: #909399;
+  margin: 8px 0 0;
 }
 
 .chat-container {
   flex: 1;
   overflow-y: auto;
-  padding: 20px;
+  padding: 20px 32px;
+  position: relative;
+  z-index: 1;
 }
 
 /* 空状态 */
@@ -467,24 +519,63 @@ export default {
   justify-content: center;
   height: 100%;
   color: #606266;
+  padding: 40px 20px;
 }
 
 .empty-icon {
-  font-size: 80px;
-  color: #409eff;
-  margin-bottom: 20px;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+  border-radius: 50%;
+  margin-bottom: 32px;
+  position: relative;
+}
+
+.empty-icon::before {
+  content: '';
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  opacity: 0.1;
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.empty-icon i {
+  font-size: 64px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.15;
+  }
 }
 
 .empty-state h2 {
-  font-size: 28px;
-  margin-bottom: 12px;
+  font-size: 32px;
+  margin-bottom: 16px;
   color: #303133;
+  font-weight: 700;
 }
 
 .empty-state p {
   font-size: 16px;
   color: #909399;
-  margin-bottom: 40px;
+  margin-bottom: 56px;
 }
 
 .quick-questions {
@@ -499,30 +590,58 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 24px 16px;
-  background: #f5f7fa;
-  border-radius: 12px;
+  gap: 12px;
+  padding: 28px 20px;
+  background: #ffffff;
+  border: 1.5px solid #e8eaed;
+  border-radius: 16px;
   cursor: pointer;
-  transition: all 0.3s;
-  min-height: 100px;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 120px;
+  position: relative;
+  overflow: hidden;
+}
+
+.question-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  opacity: 0;
+  transition: opacity 0.35s;
 }
 
 .question-card:hover {
-  background: #ecf5ff;
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(64, 158, 255, 0.15);
+  border-color: #667eea;
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 12px 32px rgba(102, 126, 234, 0.2);
+}
+
+.question-card:hover::before {
+  opacity: 1;
 }
 
 .question-card i {
-  font-size: 32px;
-  color: #409eff;
+  font-size: 36px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.35s;
+}
+
+.question-card:hover i {
+  transform: scale(1.1);
 }
 
 .question-card span {
   font-size: 14px;
   color: #303133;
-  font-weight: 500;
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
 }
 
 /* 消息列表 */
@@ -535,18 +654,32 @@ export default {
 .message-item {
   display: flex;
   gap: 16px;
-  margin-bottom: 24px;
+  margin-bottom: 32px;
+  animation: messageSlideIn 0.4s ease-out;
+}
+
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .message-avatar {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 20px;
   flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  position: relative;
 }
 
 .message-item.user .message-avatar {
@@ -561,41 +694,59 @@ export default {
 
 .message-content {
   flex: 1;
+  max-width: calc(100% - 56px);
 }
 
 .message-text {
-  background: #f5f7fa;
-  padding: 12px 16px;
-  border-radius: 8px;
-  line-height: 1.6;
+  padding: 16px 20px;
+  border-radius: 16px;
+  line-height: 1.8;
   word-wrap: break-word;
   white-space: pre-wrap;
+  font-size: 15px;
+  position: relative;
+}
+
+.message-item.assistant .message-text {
+  background: #ffffff;
+  color: #303133;
+  border: 1px solid #e8eaed;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 
 .message-item.user .message-text {
-  background: #409eff;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: #fff;
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.25);
+  margin-left: auto;
+  max-width: 85%;
 }
 
 .message-time {
   font-size: 12px;
   color: #909399;
   margin-top: 8px;
+  padding-left: 4px;
 }
 
 /* 打字动画 */
 .typing-indicator {
   display: flex;
-  gap: 6px;
-  padding: 12px 16px;
+  gap: 8px;
+  padding: 16px 20px;
+  background: #ffffff;
+  border: 1px solid #e8eaed;
+  border-radius: 16px;
+  width: fit-content;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 
 .typing-indicator span {
-  width: 8px;
-  height: 8px;
-  background: #409eff;
+  width: 10px;
+  height: 10px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border-radius: 50%;
-  animation: typing 1.4s infinite;
+  animation: typing 1.4s infinite ease-in-out;
 }
 
 .typing-indicator span:nth-child(2) {
@@ -608,28 +759,32 @@ export default {
 
 @keyframes typing {
   0%, 60%, 100% {
-    transform: translateY(0);
-    opacity: 0.5;
+    transform: translateY(0) scale(1);
+    opacity: 0.4;
   }
   30% {
-    transform: translateY(-10px);
+    transform: translateY(-12px) scale(1.1);
     opacity: 1;
   }
 }
 
 /* 输入区域 */
 .input-area {
-  border-top: 1px solid #e4e7ed;
-  padding: 20px;
-  background: #fff;
+  padding: 24px 32px 32px;
+  background: #ffffff;
+  border-top: 1px solid #e8eaed;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.04);
+  position: relative;
+  z-index: 10;
 }
 
 .input-wrapper {
   max-width: 900px;
   margin: 0 auto;
   display: flex;
-  gap: 12px;
+  gap: 16px;
   align-items: flex-end;
+  position: relative;
 }
 
 .input-wrapper >>> .el-textarea {
@@ -637,22 +792,51 @@ export default {
 }
 
 .input-wrapper >>> .el-textarea__inner {
-  border-radius: 8px;
-  padding: 12px 16px;
-  font-size: 14px;
+  border-radius: 16px;
+  padding: 16px 20px;
+  font-size: 15px;
+  border: 2px solid #e8eaed;
+  background: #ffffff;
+  transition: all 0.3s;
+  min-height: 56px !important;
+  resize: none;
+}
+
+.input-wrapper >>> .el-textarea__inner:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 .send-btn {
-  width: 46px;
-  height: 46px;
-  font-size: 20px;
+  width: 56px;
+  height: 56px;
+  font-size: 22px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 16px;
+  transition: all 0.3s;
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+}
+
+.send-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.send-btn:active {
+  transform: translateY(0);
+}
+
+.send-btn.is-disabled {
+  background: #e8eaed;
+  box-shadow: none;
 }
 
 .input-tips {
   max-width: 900px;
-  margin: 12px auto 0;
+  margin: 16px auto 0;
   text-align: center;
-  font-size: 12px;
+  font-size: 13px;
   color: #909399;
 }
 
