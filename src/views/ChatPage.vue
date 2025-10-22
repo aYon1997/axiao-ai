@@ -152,10 +152,11 @@ export default {
       inputMessage: '',
       sidebarCollapsed: false,
       quickQuestions: [
-        { icon: 'el-icon-edit', text: '帮我写一篇文章' },
-        { icon: 'el-icon-document', text: '总结一下这段内容' },
-        { icon: 'el-icon-chat-line-round', text: '给我一些建议' },
-        { icon: 'el-icon-question', text: '解释一个概念' }
+        { icon: 'el-icon-data-line', text: 'AI PPT' },
+        { icon: 'el-icon-document', text: 'AI文档' },
+        { icon: 'el-icon-connection', text: 'AI翻译' },
+        { icon: 'el-icon-files', text: 'AI文档鉴定' },
+        { icon: 'el-icon-s-order', text: 'AI法律诉讼' }
       ]
     };
   },
@@ -488,31 +489,40 @@ export default {
 
 .quick-questions {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 16px;
-  max-width: 600px;
+  max-width: 900px;
 }
 
 .question-card {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding: 16px 20px;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px 16px;
   background: #f5f7fa;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s;
+  min-height: 100px;
 }
 
 .question-card:hover {
   background: #ecf5ff;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(64, 158, 255, 0.1);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(64, 158, 255, 0.15);
 }
 
 .question-card i {
-  font-size: 20px;
+  font-size: 32px;
   color: #409eff;
+}
+
+.question-card span {
+  font-size: 14px;
+  color: #303133;
+  font-weight: 500;
 }
 
 /* 消息列表 */
