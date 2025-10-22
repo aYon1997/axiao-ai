@@ -383,6 +383,9 @@ export default {
 .menu-section {
   padding: 8px;
   border-bottom: 1px solid #e4e7ed;
+  flex-shrink: 0;
+  max-height: 40%;
+  overflow-y: auto;
 }
 
 .menu-item {
@@ -424,6 +427,7 @@ export default {
 /* 历史对话区域 */
 .history-section {
   flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
