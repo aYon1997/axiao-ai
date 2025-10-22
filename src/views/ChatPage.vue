@@ -800,6 +800,17 @@ export default {
   transition: all 0.3s;
   min-height: 56px !important;
   resize: none;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.input-wrapper >>> .el-textarea__inner::-webkit-scrollbar {
+  display: none;
+}
+
+.input-wrapper >>> .el-textarea__inner {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .input-wrapper >>> .el-textarea__inner:focus {
