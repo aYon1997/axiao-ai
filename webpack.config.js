@@ -44,7 +44,7 @@ module.exports = {
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       template: './public/index.html',
-      title: '阿孝AI - 智能对话助手'
+      title: '阿孝问问 - 智能对话助手'
     })
   ],
   resolve: {

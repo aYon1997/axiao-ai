@@ -5,7 +5,7 @@
       <div class="sidebar-header">
         <div class="logo">
           <i class="el-icon-chat-dot-round"></i>
-          <span v-if="!sidebarCollapsed">阿孝AI</span>
+          <span v-if="!sidebarCollapsed">阿孝问问</span>
         </div>
         <el-button 
           v-if="!sidebarCollapsed"
@@ -72,7 +72,7 @@
           <div class="empty-icon">
             <i class="el-icon-chat-dot-round"></i>
           </div>
-          <h2>你好，我是阿孝AI</h2>
+          <h2>你好，我是阿孝问问</h2>
           <p>一个智能对话助手，随时为您提供帮助</p>
           <div class="quick-questions">
             <div 
@@ -135,7 +135,7 @@
           ></el-button>
         </div>
           <div class="input-tips">
-          <span>阿孝AI 可能会出错，请核查重要信息</span>
+          <span>阿孝问问 可能会出错，请核查重要信息</span>
           </div>
       </div>
     </div>
