@@ -7,56 +7,67 @@
           <i class="el-icon-chat-dot-round"></i>
           <span v-if="!sidebarCollapsed">阿孝问问</span>
         </div>
-        <el-button 
-          v-if="!sidebarCollapsed"
-          type="primary" 
-          size="small" 
-          icon="el-icon-plus"
-          @click="handleNewChat"
-          class="new-chat-btn"
-        >
-          新对话
-        </el-button>
       </div>
       
-      <div class="conversations-list" v-if="!sidebarCollapsed">
+      <!-- 功能目录 -->
+      <div class="menu-section" v-if="!sidebarCollapsed">
         <div 
-          v-for="conversation in sortedConversations"
-          :key="conversation.id"
-          class="conversation-item"
-          :class="{ active: conversation.id === currentConversationId }"
-          @click="handleSwitchConversation(conversation.id)"
+          v-for="(menu, index) in menuList"
+          :key="index"
+          class="menu-item"
+          :class="{ active: menu.active }"
+          @click="handleMenuClick(menu)"
         >
-          <div class="conversation-content">
-            <div class="conversation-title">{{ conversation.title }}</div>
-            <div class="conversation-time">{{ formatTime(conversation.updateTime) }}</div>
-          </div>
-          <el-dropdown trigger="click" @command="(cmd) => handleConversationCommand(cmd, conversation.id)">
-            <span class="el-dropdown-link">
-              <i class="el-icon-more"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="delete">
-                <i class="el-icon-delete"></i> 删除
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+          <i :class="menu.icon"></i>
+          <span>{{ menu.label }}</span>
+          <i v-if="menu.hasArrow" class="el-icon-arrow-right menu-arrow"></i>
+        </div>
+      </div>
+      
+      <!-- 历史对话 -->
+      <div class="history-section" v-if="!sidebarCollapsed">
+        <div class="history-header">
+          <span class="history-title">历史对话</span>
+          <el-button 
+            type="text" 
+            size="mini"
+            icon="el-icon-delete"
+            @click="handleClearAll"
+            class="clear-btn"
+          >
+            清空
+          </el-button>
         </div>
         
-        <div v-if="sortedConversations.length === 0" class="empty-tip">
-          <i class="el-icon-chat-line-round"></i>
-          <p>暂无对话历史</p>
+        <div class="conversations-list">
+          <div 
+            v-for="conversation in sortedConversations"
+            :key="conversation.id"
+            class="conversation-item"
+            :class="{ active: conversation.id === currentConversationId }"
+            @click="handleSwitchConversation(conversation.id)"
+          >
+            <div class="conversation-content">
+              <div class="conversation-title">{{ conversation.title }}</div>
+              <div class="conversation-time">{{ formatTime(conversation.updateTime) }}</div>
+            </div>
+            <el-dropdown trigger="click" @command="(cmd) => handleConversationCommand(cmd, conversation.id)">
+              <span class="el-dropdown-link">
+                <i class="el-icon-more"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="delete">
+                  <i class="el-icon-delete"></i> 删除
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
+          
+          <div v-if="sortedConversations.length === 0" class="empty-tip">
+            <i class="el-icon-chat-line-round"></i>
+            <p>暂无对话历史</p>
+          </div>
         </div>
-      </div>
-      
-      <div class="sidebar-footer" v-if="!sidebarCollapsed">
-        <el-button 
-          size="small" 
-          icon="el-icon-delete"
-          @click="handleClearAll"
-        >
-          清空历史
-        </el-button>
       </div>
       
       <div class="sidebar-toggle" @click="sidebarCollapsed = !sidebarCollapsed">
@@ -157,6 +168,15 @@ export default {
         { icon: 'el-icon-connection', text: 'AI翻译' },
         { icon: 'el-icon-files', text: 'AI文档鉴定' },
         { icon: 'el-icon-s-order', text: 'AI法律诉讼' }
+      ],
+      menuList: [
+        { icon: 'el-icon-chat-dot-round', label: '新对话', key: 'newChat', active: true },
+        { icon: 'el-icon-document', label: 'AI文档', key: 'aiDoc', active: false },
+        { icon: 'el-icon-picture', label: '图像生成', key: 'imageGen', active: false },
+        { icon: 'el-icon-s-platform', label: 'AI翻译', key: 'aiTranslate', active: false },
+        { icon: 'el-icon-files', label: 'AI文档鉴定', key: 'docCheck', active: false },
+        { icon: 'el-icon-s-order', label: 'AI法律诉讼', key: 'aiLegal', active: false },
+        { icon: 'el-icon-more', label: '更多', key: 'more', active: false, hasArrow: true }
       ]
     };
   },
@@ -200,6 +220,22 @@ export default {
     handleQuickQuestion(question) {
       this.inputMessage = question.text;
       this.handleSend();
+    },
+    
+    // 菜单点击
+    handleMenuClick(menu) {
+      if (menu.key === 'newChat') {
+        this.handleNewChat();
+      } else if (menu.key === 'more') {
+        this.$message.info('更多功能敬请期待');
+      } else {
+        this.$message.info(`${menu.label}功能敬请期待`);
+      }
+      
+      // 更新激活状态
+      this.menuList.forEach(item => {
+        item.active = item.key === menu.key;
+      });
     },
     
     // 新建对话
@@ -326,7 +362,7 @@ export default {
 }
 
 .sidebar-header {
-  padding: 20px 16px;
+  padding: 20px 16px 16px;
   border-bottom: 1px solid #e4e7ed;
 }
 
@@ -334,24 +370,91 @@ export default {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   color: #409eff;
-  margin-bottom: 16px;
 }
 
 .logo i {
-  font-size: 28px;
+  font-size: 24px;
 }
 
-.new-chat-btn {
-  width: 100%;
+/* 功能目录 */
+.menu-section {
+  padding: 8px;
+  border-bottom: 1px solid #e4e7ed;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 4px;
+  position: relative;
+}
+
+.menu-item:hover {
+  background: #f5f7fa;
+}
+
+.menu-item.active {
+  background: #ecf5ff;
+  color: #409eff;
+}
+
+.menu-item i:first-child {
+  font-size: 18px;
+  width: 18px;
+}
+
+.menu-item span {
+  flex: 1;
+  font-size: 14px;
+}
+
+.menu-arrow {
+  font-size: 12px;
+  color: #c0c4cc;
+}
+
+/* 历史对话区域 */
+.history-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px 8px;
+}
+
+.history-title {
+  font-size: 13px;
+  color: #909399;
+  font-weight: 500;
+}
+
+.clear-btn {
+  padding: 4px 8px;
+  color: #909399;
+}
+
+.clear-btn:hover {
+  color: #409eff;
 }
 
 .conversations-list {
   flex: 1;
   overflow-y: auto;
-  padding: 8px;
+  padding: 0 8px 8px;
 }
 
 .conversation-item {
@@ -411,15 +514,6 @@ export default {
   font-size: 48px;
   display: block;
   margin-bottom: 12px;
-}
-
-.sidebar-footer {
-  padding: 16px;
-  border-top: 1px solid #e4e7ed;
-}
-
-.sidebar-footer .el-button {
-  width: 100%;
 }
 
 .sidebar-toggle {
