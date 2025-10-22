@@ -66,14 +66,6 @@
     
     <!-- 主聊天区域 -->
     <div class="chat-main">
-      <!-- 顶部标题栏 -->
-      <div class="chat-header">
-        <div class="header-content">
-          <h1 class="chat-title">阿孝AI</h1>
-          <p class="chat-subtitle">智能对话助手，让工作更高效</p>
-        </div>
-      </div>
-      
       <div class="chat-container">
         <!-- 空状态 -->
         <div v-if="currentMessages.length === 0" class="empty-state">
@@ -471,36 +463,6 @@ export default {
   height: 300px;
   background: radial-gradient(ellipse at top, rgba(64, 158, 255, 0.08) 0%, transparent 70%);
   pointer-events: none;
-}
-
-/* 顶部标题栏 */
-.chat-header {
-  padding: 24px 32px 16px;
-  background: transparent;
-  position: relative;
-  z-index: 1;
-}
-
-.header-content {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.chat-title {
-  font-size: 32px;
-  font-weight: 700;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin: 0;
-  line-height: 1.2;
-}
-
-.chat-subtitle {
-  font-size: 14px;
-  color: #909399;
-  margin: 8px 0 0;
 }
 
 .chat-container {
