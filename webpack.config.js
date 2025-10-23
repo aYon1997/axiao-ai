@@ -2,17 +2,18 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
 
+
 module.exports = (env, argv) => {
-  const isProduction = argv.mode === 'production';
+  const isProduction = process.env.NODE_ENV === 'development';
   
   return {
-    mode: isProduction ? 'production' : 'development',
+    mode: isProduction ? 'development' : 'production',
     entry: './src/main.js',
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: 'bundle.js',
       clean: true,
-      publicPath: isProduction ? './' : '/'
+      publicPath: isProduction ? '/' : './'
     },
     devServer: {
       static: {
